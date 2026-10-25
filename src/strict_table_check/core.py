@@ -53,7 +53,7 @@ def audit(
     source_path = Path(path).resolve(strict=True)
     if not source_path.is_file():
         raise ValueError("source must be a regular database file")
-    started = time.monotonic()
+    started = time.perf_counter()
     source = sqlite3.connect(source_path.as_uri() + "?mode=ro", uri=True, timeout=1)
     scratch = sqlite3.connect(":memory:")
     result = {
@@ -73,7 +73,7 @@ def audit(
         source.execute("PRAGMA query_only=ON")
         source.execute("PRAGMA trusted_schema=OFF")
         source.setlimit(sqlite3.SQLITE_LIMIT_LENGTH, max_value_bytes)
-        source.set_progress_handler(lambda: time.monotonic() - started > max_seconds, 1000)
+        source.set_progress_handler(lambda: time.perf_counter() - started > max_seconds, 1000)
         source.execute("BEGIN")
         record = source.execute(
             "SELECT name, type FROM pragma_table_list WHERE schema='main' AND name=?", (table,)
@@ -113,7 +113,7 @@ def audit(
             if result["rows_scanned"] >= max_rows:
                 result["error"] = "row limit reached; remaining rows were not checked"
                 break
-            if time.monotonic() - started > max_seconds:
+            if time.perf_counter() - started > max_seconds:
                 result["error"] = "time budget reached; remaining rows were not checked"
                 break
             result["rows_scanned"] += 1

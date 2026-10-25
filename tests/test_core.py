@@ -8,6 +8,7 @@ import tempfile
 import unittest
 from contextlib import closing
 from pathlib import Path
+from unittest.mock import patch
 
 from strict_table_check.core import audit
 
@@ -161,7 +162,8 @@ class StrictTests(unittest.TestCase):
 
     def test_time_budget_incomplete(self):
         self.make(rows=list(range(50)))
-        self.assertFalse(audit(self.path, "t", {"v": "ANY"}, max_seconds=1e-12)["complete"])
+        with patch("strict_table_check.core.time.perf_counter", side_effect=[0] + [31] * 1000):
+            self.assertFalse(audit(self.path, "t", {"v": "ANY"}, max_seconds=30)["complete"])
 
     def test_nonfinite_json_is_valid(self):
         self.make(rows=[float("inf")])
