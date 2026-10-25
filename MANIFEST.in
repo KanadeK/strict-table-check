@@ -1,0 +1,4 @@
+include *.md LICENSE
+recursive-include examples *.py *.copy
+recursive-include tests *.py
+recursive-include .github *.yml *.md

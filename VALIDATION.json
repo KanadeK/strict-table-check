@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-25",
+  "platform": "Windows",
+  "python": "3.13.16",
+  "sqlite": "3.50.4",
+  "checks": [
+    "unittest",
+    "ruff-check",
+    "ruff-format",
+    "compileall",
+    "wheel-and-sdist-build",
+    "fresh-wheel-install",
+    "documented-demo-exit-codes",
+    "uninstall"
+  ],
+  "result": "passed",
+  "runtime_dependencies": [],
+  "limits": "Local results are Windows only; other environments require CI results."
+}

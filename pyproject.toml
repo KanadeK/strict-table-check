@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "strict-table-check"
+version = "0.1.0"
+description = "Read-only SQLite STRICT type migration diagnostics using actual engine coercion."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "KanadeK"}]
+dependencies = []
+classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
+
+[project.scripts]
+strict-table-check = "strict_table_check.cli:main"
+
+[project.urls]
+Repository = "https://github.com/KanadeK/strict-table-check"
+Issues = "https://github.com/KanadeK/strict-table-check/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
